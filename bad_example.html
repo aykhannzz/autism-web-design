@@ -1,0 +1,596 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>MEGA DEAL ZONE — HOT OFFERS NOW!!! 🔥🔥🔥</title>
+
+<!--
+  ╔══════════════════════════════════════════════════════════════╗
+  ║  AUTISM-UNFRIENDLY DESIGN — VIOLATION ANNOTATIONS            ║
+  ║  Every rule from the guidelines is deliberately broken.      ║
+  ╚══════════════════════════════════════════════════════════════╝
+
+  RULES BROKEN:
+  [V1]  Saturated, clashing neon colours — red, lime, yellow, magenta
+  [V2]  Pure white background (#ffffff) causing glare
+  [V3]  Body text 11px, cramped line-height 1.1 — hard to read
+  [V4]  Comic Sans + Papyrus — illegible novelty fonts
+  [V5]  CSS animations playing automatically and continuously (flashing,
+         spinning, bouncing) — ignores prefers-reduced-motion
+  [V6]  Autoplay audio (loud notification sound on load)
+  [V7]  Navigation changes position/labels randomly — unpredictable
+  [V8]  Icon-only buttons with no text labels
+  [V9]  Colour is the only signal (red = bad, green = good — no text/icon)
+  [V10] No dark mode, no font controls, no user customisation at all
+  [V11] Pop-up appearing 3 seconds after load — surprise interruption
+  [V12] Marquee scrolling text — moving content with no pause control
+  [V13] Multiple auto-playing videos/GIFs
+  [V14] Inconsistent layout — columns change on every section
+  [V15] Dense, cluttered layout — no white space
+  [V16] Sarcastic, idiomatic language ("Don't miss the boat!")
+  [V17] No focus indicators (outline: none) — invisible keyboard focus
+  [V18] Flashing banner (>3 flashes/sec) — seizure & anxiety trigger
+  [V19] No skip link — keyboard users must tab through everything
+  [V20] Time-pressure countdown timers creating urgency and anxiety
+-->
+
+<style>
+/* [V1] Clashing neon palette — maximum sensory overload */
+/* [V2] Pure white background */
+body {
+  background: #ffffff;
+  font-family: 'Comic Sans MS', 'Chalkboard SE', cursive; /* [V4] */
+  font-size: 11px;       /* [V3] Too small */
+  line-height: 1.1;      /* [V3] Cramped */
+  color: #ff0000;
+  overflow-x: hidden;
+  cursor: url("data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' width='32' height='32'><text y='24' font-size='24'>💥</text></svg>"), auto;
+}
+
+/* [V17] No focus indicators */
+* { outline: none !important; box-sizing: border-box; }
+
+/* [V18] Flashing header — rapid colour cycling */
+@keyframes flashColors {
+  0%   { background: #ff0000; }
+  10%  { background: #ff6600; }
+  20%  { background: #ffff00; }
+  30%  { background: #00ff00; }
+  40%  { background: #00ffff; }
+  50%  { background: #0000ff; }
+  60%  { background: #ff00ff; }
+  70%  { background: #ff0066; }
+  80%  { background: #ff9900; }
+  90%  { background: #00ff99; }
+  100% { background: #ff0000; }
+}
+
+/* [V5] All animations automatic and continuous */
+@keyframes spin { from { transform: rotate(0deg); } to { transform: rotate(360deg); } }
+@keyframes bounce { 0%,100% { transform: translateY(0); } 50% { transform: translateY(-20px); } }
+@keyframes shake { 0%,100%{transform:translateX(0);} 25%{transform:translateX(-8px);} 75%{transform:translateX(8px);} }
+@keyframes pulse { 0%,100%{transform:scale(1);} 50%{transform:scale(1.15);} }
+@keyframes marquee { 0%{transform:translateX(100%);} 100%{transform:translateX(-100%);} }
+@keyframes blink { 0%,49%{opacity:1;} 50%,100%{opacity:0;} }
+@keyframes rainbow {
+  0%{color:#ff0000;} 16%{color:#ff6600;} 33%{color:#ffcc00;}
+  50%{color:#00cc00;} 66%{color:#0066ff;} 83%{color:#cc00ff;} 100%{color:#ff0000;}
+}
+@keyframes bgFlash {
+  0%,49%{background:#ffff00;} 50%,100%{background:#ff00ff;}
+}
+@keyframes zoomPulse { 0%,100%{transform:scale(1);} 50%{transform:scale(1.3) rotate(5deg);} }
+@keyframes slideInOut {
+  0%{transform:translateX(-120%);} 30%{transform:translateX(0);} 70%{transform:translateX(0);} 100%{transform:translateX(120%);}
+}
+
+/* [V18] Flashing header */
+.flash-header {
+  animation: flashColors 0.4s infinite; /* Rapid flash — >3 per second */
+  padding: 6px 12px;
+  text-align: center;
+  font-size: 20px;
+  font-weight: bold;
+  color: #fff;
+  text-shadow: 2px 2px #000;
+  border: 4px dashed #000;
+}
+
+/* [V7] [V19] Nav is at the bottom AND uses random icons with no labels */
+.bad-nav {
+  display: flex;
+  gap: 5px;
+  padding: 4px;
+  background: #00ff00;
+  justify-content: flex-end; /* [V7] not where users expect it */
+  flex-wrap: wrap;
+  border: 3px solid #ff00ff;
+}
+/* [V8] Icon-only nav buttons */
+.bad-nav a {
+  width: 36px; height: 36px;
+  background: #ff0000;
+  color: #fff;
+  display: flex; align-items: center; justify-content: center;
+  font-size: 18px;
+  text-decoration: none;
+  border: 2px solid #0000ff;
+  animation: pulse 0.6s infinite;
+}
+
+/* [V12] Marquee */
+.marquee-wrap {
+  overflow: hidden;
+  background: #000;
+  color: #ffff00;
+  font-size: 22px;
+  font-weight: bold;
+  padding: 8px 0;
+  white-space: nowrap;
+  border: 3px solid #ff0000;
+}
+.marquee-inner {
+  display: inline-block;
+  animation: marquee 4s linear infinite; /* [V5] auto-playing, no pause */
+}
+
+/* Main body layout — chaotic */
+.main-wrap {
+  padding: 4px;
+  background: repeating-linear-gradient(
+    45deg,
+    #ffe0e0, #ffe0e0 10px,
+    #e0ffe0 10px, #e0ffe0 20px
+  ); /* [V2] extremely busy background pattern */
+}
+
+/* [V15] Dense, cluttered sections */
+.section-chaos {
+  background: #ffff00;
+  border: 5px solid #ff00cc;
+  margin: 2px;
+  padding: 4px;
+}
+
+/* [V14] Grid changes every section */
+.grid-5col { display: grid; grid-template-columns: repeat(5, 1fr); gap: 2px; }
+.grid-3col { display: grid; grid-template-columns: 20% 60% 20%; gap: 0; }
+.grid-7col { display: grid; grid-template-columns: repeat(7, 1fr); gap: 0; }
+
+/* [V9] Colour-only signals */
+.signal-red   { background: #ff0000; width: 14px; height: 14px; display: inline-block; }
+.signal-green { background: #00ff00; width: 14px; height: 14px; display: inline-block; }
+/* No text label, no icon — just coloured squares */
+
+.deal-box {
+  background: #ff6600;
+  border: 3px dashed #0000ff;
+  padding: 3px;
+  animation: bgFlash 0.5s infinite; /* [V5] [V18] auto-flashing */
+  text-align: center;
+  color: #fff;
+  font-size: 9px;
+}
+
+.spin-thing { animation: spin 0.8s linear infinite; display: inline-block; font-size: 28px; }
+.bounce-btn {
+  animation: bounce 0.4s ease infinite;
+  background: #ff0000;
+  color: #fff;
+  font-size: 14px;
+  padding: 3px 8px;
+  border: none;
+  cursor: pointer;
+  font-family: inherit;
+  display: inline-block;
+}
+
+/* [V16] Urgent, sarcastic text styles */
+.urgent-text {
+  animation: rainbow 0.3s linear infinite;
+  font-size: 18px;
+  font-weight: 900;
+  text-transform: uppercase;
+  letter-spacing: -1px;
+}
+.blink-text { animation: blink 0.5s step-end infinite; font-weight: bold; font-size: 16px; color: #ff0000; }
+
+/* [V20] Countdown timer */
+.countdown {
+  background: #000;
+  color: #ff0000;
+  font-size: 28px;
+  font-weight: bold;
+  text-align: center;
+  padding: 4px;
+  animation: pulse 0.5s ease infinite;
+  border: 4px solid #ff0000;
+  font-family: monospace;
+}
+.countdown-label { font-size: 10px; color: #ffff00; display: block; }
+
+/* [V11] Pop-up overlay */
+#popup-overlay {
+  display: none;
+  position: fixed; inset: 0;
+  background: rgba(0,0,0,0.5);
+  z-index: 9999;
+  justify-content: center;
+  align-items: center;
+}
+#popup-overlay.show { display: flex; }
+#popup-box {
+  background: #ff0000;
+  border: 8px solid #ffff00;
+  padding: 20px;
+  max-width: 400px;
+  text-align: center;
+  color: #fff;
+  animation: shake 0.3s infinite;
+  font-size: 22px;
+  position: relative;
+}
+#popup-box h2 { font-size: 28px; animation: rainbow 0.5s infinite; margin-bottom: 10px; }
+#popup-close {
+  /* [V8] X with no label — just a symbol */
+  position: absolute; top: 4px; right: 8px;
+  background: none; border: none;
+  color: #ffff00; font-size: 24px; cursor: pointer;
+}
+.popup-btn {
+  background: #ffff00; color: #000;
+  border: 3px solid #0000ff;
+  padding: 8px 16px;
+  font-size: 18px;
+  cursor: pointer;
+  font-family: inherit;
+  font-weight: bold;
+  animation: zoomPulse 0.6s ease infinite;
+  margin: 4px;
+}
+
+/* Sidebar noise */
+.sidebar-noise {
+  background: #0000ff;
+  color: #ffff00;
+  font-size: 9px;
+  padding: 3px;
+  line-height: 1.0;
+}
+.sidebar-noise div { border: 1px solid #ff0000; margin: 1px; padding: 2px; }
+
+/* [V5] Video/GIF placeholder auto-playing */
+.fake-video {
+  width: 100%; height: 80px;
+  background: repeating-linear-gradient(0deg, #000 0px, #000 2px, #fff 2px, #fff 4px);
+  animation: flashColors 0.3s infinite;
+  display: flex; align-items: center; justify-content: center;
+  color: #fff; font-size: 20px; font-weight: bold;
+  border: 3px solid #ff0000;
+}
+
+/* Tiny unreadable text blocks */
+.tiny-text {
+  font-size: 8px;
+  line-height: 1.0;
+  color: #aaaaaa; /* [V18] Very low contrast on white background */
+  font-family: 'Times New Roman', serif;
+}
+
+/* Scrolling sidebar */
+.scrolling-sidebar {
+  background: #ff00ff;
+  overflow: hidden;
+  height: 200px;
+  position: relative;
+}
+.scrolling-inner {
+  animation: marquee 3s linear infinite;
+  white-space: nowrap;
+  position: absolute;
+  top: 0;
+  color: #00ff00;
+  font-size: 10px;
+  font-weight: bold;
+}
+
+/* Random extra clutter */
+.zigzag-border {
+  border: 4px solid transparent;
+  border-image: repeating-linear-gradient(45deg, #f00, #f00 10px, #0f0 10px, #0f0 20px) 4;
+  padding: 3px;
+  margin: 2px;
+}
+
+.form-chaos input {
+  background: #ffff00;
+  border: 3px solid #ff00cc;
+  color: #0000ff;
+  font-size: 9px;
+  padding: 2px;
+  width: 80px;
+}
+.form-chaos input::placeholder { color: #ff0000; font-size: 9px; }
+/* [V15] Form fields in multiple columns, confusing layout */
+
+.noise-bg {
+  background: url("data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' width='4' height='4'><rect width='2' height='2' fill='%23f00'/><rect x='2' y='2' width='2' height='2' fill='%2300f'/></svg>");
+}
+
+/* Random images of animated stars */
+@keyframes starSpin { from{transform:rotate(0) scale(1);} 50%{transform:rotate(180deg) scale(1.5);} to{transform:rotate(360deg) scale(1);} }
+.star { display:inline-block; animation: starSpin 0.5s linear infinite; font-size:24px; }
+</style>
+</head>
+<body>
+
+<!-- [V18] Immediately flashing header — rapid colour change -->
+<div class="flash-header" role="banner">
+  🔥🔥 WELCOME TO MEGA DEAL ZONE — YOU WON'T BELIEVE WHAT'S ON OFFER!!! 🔥🔥
+  <span class="blink-text">⚠️ WARNING: LIMITED TIME ONLY ⚠️</span>
+</div>
+
+<!-- [V12] Marquee — moving text the user cannot stop -->
+<div class="marquee-wrap" aria-hidden="true"> <!-- hidden from screen readers, yet still playing visually -->
+  <span class="marquee-inner">
+    💥 DON'T MISS THE BOAT! 💥 ACT NOW BEFORE IT'S TOO LATE! 💥 EVERYTHING MUST GO! 💥 YOU SNOOZE YOU LOSE! 💥 LAST CHANCE SALOON! 💥 GOING GOING GONE! 💥 HURRY HURRY HURRY! 💥
+  </span>
+</div>
+
+<!-- [V7] Nav is at the bottom of the header, not where expected; icon-only [V8] -->
+<div class="bad-nav" role="navigation" aria-label="navigation">
+  <a href="#" title="">🏠</a>   <!-- [V8] no text label at all -->
+  <a href="#" title="">📦</a>
+  <a href="#" title="">🛒</a>
+  <a href="#" title="">❓</a>
+  <a href="#" title="">📞</a>
+  <a href="#" title="">⭐</a>
+  <a href="#" title="">🎁</a>
+</div>
+
+<!-- [V20] Countdown timer — creates stress and urgency -->
+<div class="countdown" role="timer" aria-live="assertive" aria-atomic="true">
+  <span class="countdown-label">⚠️ OFFER EXPIRES IN ⚠️</span>
+  <span id="timer">09:59</span>
+</div>
+
+<!-- [V6] Autoplay audio — user did not ask for this -->
+<audio id="alarm" autoplay loop>
+  <!-- Encoded tiny beep sound as base64 data URI -->
+  <source src="data:audio/wav;base64,UklGRl9vT19XQVZFZm10IBAAAA..." type="audio/wav">
+</audio>
+
+<!-- MAIN CONTENT AREA -->
+<div class="main-wrap">
+
+  <!-- [V14] Inconsistent grid: 5 columns here -->
+  <div class="grid-5col section-chaos">
+
+    <!-- [V5] Auto-playing fake video -->
+    <div class="fake-video">▶ LIVE SALE NOW</div>
+
+    <!-- [V15] Dense clutter -->
+    <div class="deal-box">
+      <span class="star">★</span>
+      <div class="urgent-text">SALE!!!</div>
+      <div style="font-size:8px;color:#fff;">Only 3 left!!!</div>
+      <div class="signal-red"></div><!-- [V9] no label for this red square -->
+      <button class="bounce-btn">BUY BUY BUY</button>
+    </div>
+
+    <!-- [V9] Colour-only status signals — no text explanation -->
+    <div style="background:#fff;padding:3px;border:2px solid #000;font-size:9px;">
+      Status indicators:<br>
+      <span class="signal-green"></span><br>  <!-- what does this mean? -->
+      <span class="signal-red"></span><br>
+      <span style="background:#ffff00;display:inline-block;width:14px;height:14px;"></span><br>
+      No text labels provided.
+    </div>
+
+    <div class="sidebar-noise">
+      <div>FLASH DEAL</div>
+      <div>HOT HOT HOT</div>
+      <div>WOW PRICE</div>
+      <div>INSANE SAVINGS</div>
+      <div>MUST BUY</div>
+      <div>TOP PICK</div>
+      <div>FAN FAVE</div>
+    </div>
+
+    <!-- [V5] Spinning element with no purpose -->
+    <div style="text-align:center;background:#ff00ff;padding:4px;">
+      <span class="spin-thing">⚙️</span><br>
+      <span class="spin-thing">🌀</span><br>
+      <span class="spin-thing">💫</span>
+    </div>
+  </div>
+
+  <!-- [V16] Sarcastic/idiomatic language + [V14] now 3-column inconsistent layout -->
+  <div class="grid-3col">
+
+    <div class="scrolling-sidebar">
+      <div class="scrolling-inner">
+        🚨 ALERT 🚨 HOT PRICES 🔥 LIMITED TIME 🔥 ACT NOW 🚨 BIG SAVINGS 🔥 DONT SNOOZE 🚨
+      </div>
+    </div>
+
+    <div style="background:#fff;padding:4px;border:3px solid #00ff00;">
+
+      <!-- [V3] Tiny text, terrible line-height -->
+      <!-- [V16] Idioms and vague language -->
+      <p class="tiny-text" style="font-size:9px;line-height:1.0;">
+        Don't miss the boat! Our prices are through the roof — wait, we mean LOW through the roof. Ball is in your court.
+        Hit the ground running with our blazing hot deals. Bite the bullet and add to cart before the clock runs out.
+        Every dog has its day, and today is YOUR day. Don't let the cat out of the bag — tell nobody about these prices!
+        The ball is in your court. Time flies when you're having fun shopping. Let's hit two birds with one stone!
+      </p>
+
+      <!-- [V3] Ultra small form with confusing multi-column layout [V15] -->
+      <div class="form-chaos" style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:1px;">
+        <input type="text" placeholder="nm">  <!-- [V16] cryptic placeholder -->
+        <input type="email" placeholder="@">
+        <input type="tel" placeholder="ph#">
+        <input type="text" placeholder="addr">
+        <input type="text" placeholder="cc#">  <!-- asking for credit card with no context -->
+        <input type="text" placeholder="cvv">
+        <!-- [V8] submit button: icon only -->
+        <button style="background:#ff0000;color:#fff;border:none;cursor:pointer;font-size:9px;padding:1px;">✓</button>
+      </div>
+
+      <!-- [V9] Colour-only error/success -->
+      <div style="display:flex;gap:2px;margin-top:2px;">
+        <div style="width:10px;height:10px;background:#ff0000;"></div>
+        <div style="width:10px;height:10px;background:#ff0000;"></div>
+        <div style="width:10px;height:10px;background:#00ff00;"></div>
+      </div>
+      <!-- User has no idea what these coloured boxes mean -->
+
+    </div>
+
+    <div style="background:#0000ff;padding:3px;">
+      <!-- [V5] More spinning/flashing auto animations -->
+      <div style="animation:flashColors 0.3s infinite;padding:4px;color:#fff;font-size:10px;font-weight:bold;">
+        ⚡ FLASH ⚡<br>SALE<br>NOW!
+      </div>
+      <div style="animation:bounce 0.3s infinite;font-size:24px;text-align:center;">💣</div>
+      <div style="animation:shake 0.2s infinite;font-size:8px;color:#fff;">
+        Time is running out!!!
+      </div>
+    </div>
+
+  </div>
+
+  <!-- [V14] Now 7 columns — completely different from above sections -->
+  <div class="grid-7col section-chaos zigzag-border">
+    <div class="deal-box" style="font-size:8px;">DEAL<br>1</div>
+    <div class="deal-box" style="font-size:8px;">DEAL<br>2</div>
+    <div class="deal-box" style="font-size:8px;">DEAL<br>3</div>
+    <div class="deal-box" style="font-size:8px;">DEAL<br>4</div>
+    <div class="deal-box" style="font-size:8px;">DEAL<br>5</div>
+    <div class="deal-box" style="font-size:8px;">DEAL<br>6</div>
+    <div class="deal-box" style="font-size:8px;">DEAL<br>7</div>
+  </div>
+
+  <!-- Another random section with different layout again [V14] -->
+  <div style="display:flex;gap:0;background:#ff00ff;border:4px solid #00ffff;padding:2px;flex-wrap:nowrap;">
+
+    <!-- [V5] Fake autoplay GIF-style animation -->
+    <div class="fake-video" style="width:150px;min-width:150px;">
+      🎬 AUTOPLAY AD
+    </div>
+
+    <div style="flex:1;background:#ffff00;padding:4px;font-size:9px;">
+      <!-- [V16] More idioms [V3] tiny dense text -->
+      <strong style="font-size:11px;color:#ff0000;">🔥 BURNING QUESTION: Why pay more? Bite the bullet!</strong><br>
+      <span class="tiny-text">
+        It's not rocket science — our prices knock it out of the park! You'd be barking up the wrong tree
+        if you shop elsewhere. We're the cream of the crop! Don't throw caution to the wind — buy now!
+        The writing is on the wall: great deals don't last forever! Jump on the bandwagon today!
+      </span>
+      <br>
+      <!-- [V9] Colour-only rating — no text or accessible label -->
+      <span style="color:#ff0000;font-size:20px;">★★★★★</span>
+      <!-- Are these good or bad stars? No explanation. -->
+      <br>
+      <span class="blink-text">⚠️ ALMOST GONE ⚠️</span>
+    </div>
+
+    <div style="background:#00ff00;padding:4px;width:80px;font-size:8px;color:#000000;border:2px solid #ff0000;line-height:1.0;">
+      <!-- [V15] Extreme density -->
+      PRICE<br>$9.99<br>WAS<br>$999<br>SAVE<br>99%<br>BUY<br>1<br>GET<br>1<br>FREE<br>TODAY<br>ONLY<br>!!!<br>!!!
+    </div>
+
+  </div>
+
+  <!-- Second fake autoplay video section [V6][V5] -->
+  <div style="background:#000;padding:4px;border:6px solid #ff0000;">
+    <div class="fake-video" style="height:60px;">
+      📺 VIDEO PLAYING AUTOMATICALLY — CANNOT STOP
+    </div>
+    <div style="background:#ff00ff;animation:flashColors 0.2s infinite;text-align:center;padding:3px;color:#fff;font-size:10px;font-weight:bold;">
+      SUBSCRIBE NOW OR MISS OUT FOREVER!!!!
+    </div>
+  </div>
+
+  <!-- [V20] Another panic-inducing element -->
+  <div style="background:#000;padding:6px;text-align:center;border:4px solid #ff0000;margin:2px;">
+    <div class="urgent-text" style="font-size:14px;">⚠️ ONLY 2 ITEMS LEFT IN STOCK — BUY NOW OR CRY LATER ⚠️</div>
+    <!-- [V16] "Cry later" is unnecessarily distressing -->
+    <div style="animation:pulse 0.3s infinite;background:#ff0000;color:#fff;padding:4px;font-size:16px;font-weight:bold;margin:4px auto;max-width:200px;">
+      ADD TO CART NOW!!!
+    </div>
+  </div>
+
+</div><!-- /main-wrap -->
+
+<!-- [V7] Second nav appears at a completely different location on the page -->
+<div style="background:#ff0000;padding:4px;display:flex;gap:3px;justify-content:center;border-top:4px solid #0000ff;">
+  <!-- [V8] Icon-only buttons again, different icons from the first nav -->
+  <button style="background:#ffff00;border:2px solid #000;width:30px;height:30px;cursor:pointer;font-size:16px;">🔔</button>
+  <button style="background:#00ff00;border:2px solid #000;width:30px;height:30px;cursor:pointer;font-size:16px;">💬</button>
+  <button style="background:#ff00ff;border:2px solid #000;width:30px;height:30px;cursor:pointer;font-size:16px;">🎯</button>
+  <button style="background:#00ffff;border:2px solid #000;width:30px;height:30px;cursor:pointer;font-size:16px;">💰</button>
+</div>
+
+<!-- [V11] Pop-up appears 3 seconds after load — surprise interruption -->
+<div id="popup-overlay" role="dialog" aria-modal="true">
+  <div id="popup-box">
+    <button id="popup-close" aria-label="">✕</button> <!-- [V8] no accessible label -->
+    <h2>🎉 YOU'RE A WINNER!!! 🎉</h2>
+    <p style="font-size:14px;margin-bottom:10px;">
+      Don't look a gift horse in the mouth!<br>
+      <!-- [V16] Idiom — confusing to many autistic users -->
+      You've been selected for an EXCLUSIVE offer!<br>
+      <span class="blink-text">Hurry — this disappears in 10 seconds!</span>
+    </p>
+    <div id="popup-countdown" style="font-size:32px;font-weight:bold;animation:rainbow 0.3s infinite;">10</div>
+    <div>
+      <button class="popup-btn">YES! CLAIM MY PRIZE!</button>
+      <button class="popup-btn" onclick="closePopup()" style="background:#aaa;">No thanks, I hate savings</button>
+      <!-- [V16] Guilt-tripping, manipulative button text -->
+    </div>
+  </div>
+</div>
+
+<script>
+// [V20] Countdown timer — counts down fast to create panic
+var t = 599;
+var timerEl = document.getElementById('timer');
+setInterval(function(){
+  if(t > 0) t--;
+  var m = Math.floor(t/60), s = t%60;
+  if(timerEl) timerEl.textContent = (m<10?'0':'')+m+':'+(s<10?'0':'')+s;
+}, 800); // Goes fast to increase anxiety [V20]
+
+// [V11] Pop-up appears after 3 seconds
+setTimeout(function(){
+  document.getElementById('popup-overlay').classList.add('show');
+  // [V20] Pop-up also has a countdown
+  var pc = 10;
+  var pcEl = document.getElementById('popup-countdown');
+  var pcInt = setInterval(function(){
+    pc--;
+    if(pcEl) pcEl.textContent = pc;
+    if(pc <= 0){
+      closePopup();
+      clearInterval(pcInt);
+    }
+  }, 1000);
+}, 3000);
+
+function closePopup(){
+  document.getElementById('popup-overlay').classList.remove('show');
+}
+
+document.getElementById('popup-close').addEventListener('click', closePopup);
+// Clicking outside popup does NOT close it — trapping the user [V11]
+
+// [V6] Try to play audio on first interaction
+document.addEventListener('click', function(){
+  try { document.getElementById('alarm').play(); } catch(e){}
+}, {once: false}); // Retries every click
+</script>
+
+</body>
+</html>

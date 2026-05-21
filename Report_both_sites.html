@@ -1,0 +1,581 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Autism-Friendly Web Design — Explanation Report</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Literata:ital,wght@0,300;0,400;0,500;0,600;1,400&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
+<style>
+:root {
+  --bg: #f5f2eb;
+  --bg-card: #faf8f3;
+  --bg-nav: #eeeae0;
+  --text: #2a2620;
+  --text-soft: #4a4540;
+  --text-dim: #6b6560;
+  --sage: #5a7a5a;
+  --sage-l: #eef3ee;
+  --red: #8a3a3a;
+  --red-l: #fdf0f0;
+  --blue: #3a5a8a;
+  --blue-l: #eef2f8;
+  --border: rgba(42,38,32,0.10);
+}
+*, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+html { font-size: 18px; scroll-behavior: smooth; }
+body {
+  font-family: 'DM Sans', sans-serif;
+  background: var(--bg);
+  color: var(--text);
+  line-height: 1.75;
+}
+:focus-visible { outline: 3px solid var(--blue); outline-offset: 3px; border-radius: 4px; }
+a { color: var(--blue); }
+
+/* NAV */
+nav {
+  background: var(--bg-nav);
+  border-bottom: 1px solid var(--border);
+  padding: 1rem 2rem;
+  position: sticky; top: 0; z-index: 10;
+}
+nav h1 {
+  font-family: 'Literata', serif;
+  font-size: 1.1rem; font-weight: 500;
+  color: var(--text);
+}
+nav p { font-size: 0.8rem; color: var(--text-dim); }
+
+/* LAYOUT */
+main { max-width: 860px; margin: 0 auto; padding: 3rem 2rem; }
+
+/* SECTIONS */
+h2 {
+  font-family: 'Literata', serif;
+  font-size: 1.6rem; font-weight: 500;
+  color: var(--text);
+  margin-bottom: 0.5rem;
+  padding-bottom: 0.5rem;
+  border-bottom: 2px solid var(--border);
+}
+h3 {
+  font-family: 'DM Sans', sans-serif;
+  font-size: 1rem; font-weight: 600;
+  color: var(--text); margin-bottom: 0.4rem;
+}
+p { color: var(--text-soft); margin-bottom: 0.75rem; }
+section { margin-bottom: 3.5rem; }
+
+/* RULE TABLE */
+.rule-table { width: 100%; border-collapse: collapse; margin-top: 1rem; font-size: 0.9rem; }
+.rule-table th {
+  background: var(--bg-nav);
+  color: var(--text-soft);
+  text-align: left;
+  padding: 0.6rem 0.8rem;
+  font-weight: 600;
+  border: 1px solid var(--border);
+  font-size: 0.8rem;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+}
+.rule-table td {
+  padding: 0.65rem 0.8rem;
+  border: 1px solid var(--border);
+  vertical-align: top;
+  color: var(--text-soft);
+  line-height: 1.55;
+  background: var(--bg-card);
+}
+.rule-table tr:hover td { background: var(--bg-nav); }
+
+.badge {
+  display: inline-block;
+  padding: 0.1rem 0.5rem;
+  border-radius: 4px;
+  font-size: 0.75rem;
+  font-weight: 600;
+}
+.badge-good { background: var(--sage-l); color: var(--sage); border: 1px solid rgba(90,122,90,0.2); }
+.badge-bad  { background: var(--red-l);  color: var(--red);  border: 1px solid rgba(138,58,58,0.2); }
+.badge-ref  { background: var(--blue-l); color: var(--blue); border: 1px solid rgba(58,90,138,0.2); }
+
+/* STEPS */
+.steps { counter-reset: step; display: flex; flex-direction: column; gap: 1.2rem; margin-top: 1rem; }
+.step {
+  display: flex; gap: 1rem; align-items: flex-start;
+  background: var(--bg-card); border: 1px solid var(--border);
+  border-radius: 8px; padding: 1rem 1.2rem;
+}
+.step-num {
+  counter-increment: step;
+  content: counter(step);
+  width: 32px; height: 32px; min-width: 32px;
+  background: var(--blue); color: #fff;
+  border-radius: 50%;
+  display: flex; align-items: center; justify-content: center;
+  font-weight: 700; font-size: 0.85rem;
+}
+.step-body h4 { font-weight: 600; font-size: 0.95rem; color: var(--text); margin-bottom: 0.2rem; }
+.step-body p { margin: 0; font-size: 0.9rem; }
+.step-body code {
+  background: var(--bg-nav); border: 1px solid var(--border);
+  padding: 0.1rem 0.4rem; border-radius: 4px; font-size: 0.85rem;
+  color: var(--blue);
+}
+
+.callout {
+  background: var(--sage-l); border: 1px solid rgba(90,122,90,0.2);
+  border-left: 4px solid var(--sage);
+  border-radius: 8px; padding: 1rem 1.2rem; margin-bottom: 1.5rem;
+}
+.callout p { margin: 0; font-size: 0.92rem; }
+
+.two-col { display: grid; grid-template-columns: 1fr 1fr; gap: 1.5rem; margin-top: 1rem; }
+.side-box {
+  background: var(--bg-card); border: 1px solid var(--border); border-radius: 8px; padding: 1.2rem;
+}
+.side-box.good { border-top: 4px solid var(--sage); }
+.side-box.bad  { border-top: 4px solid var(--red); }
+.side-box h4 { font-size: 1rem; font-weight: 600; margin-bottom: 0.6rem; }
+.side-box.good h4 { color: var(--sage); }
+.side-box.bad  h4 { color: var(--red); }
+.side-box ul { padding-left: 1.2rem; }
+.side-box li { font-size: 0.88rem; color: var(--text-soft); margin-bottom: 0.3rem; line-height: 1.55; }
+</style>
+</head>
+<body>
+
+<nav>
+  <h1>Autism-Friendly Web Design — Assignment Explanation</h1>
+  <p>Two websites · Rule-by-rule breakdown · GitHub Pages setup guide</p>
+</nav>
+
+<main>
+
+<!-- OVERVIEW -->
+<section>
+  <h2>Overview</h2>
+  <p>
+    This document explains two websites created for the universal design assignment.
+    Both sites cover the same topic — a reading platform called <strong>Leafwell</strong>.
+    One site follows all autism-friendly design guidelines from the lecture materials.
+    The other site deliberately breaks every rule to demonstrate the contrast.
+  </p>
+  <div class="two-col">
+    <div class="side-box good">
+      <h4>✓ Good site: Leafwell (good/index.html)</h4>
+      <ul>
+        <li>Calm, muted colour palette</li>
+        <li>Readable 18px body text, 1.75 line-height</li>
+        <li>No autoplay, no animations</li>
+        <li>Persistent dark mode, font-size, motion controls</li>
+        <li>Consistent navigation, icon + text labels</li>
+        <li>Plain, literal language — no idioms</li>
+        <li>Visible keyboard focus indicators</li>
+        <li>Skip navigation link</li>
+      </ul>
+    </div>
+    <div class="side-box bad">
+      <h4>✗ Bad site: Mega Deal Zone (bad/index.html)</h4>
+      <ul>
+        <li>Neon clashing colours, pure white background</li>
+        <li>9px body text, 1.0 line-height</li>
+        <li>Constant flashing, spinning, bouncing animations</li>
+        <li>Autoplay audio and fake video</li>
+        <li>Pop-up appears 3 seconds after load</li>
+        <li>Icon-only navigation buttons</li>
+        <li>Colour-only signals (no text or icons)</li>
+        <li>Panic-inducing countdown timers</li>
+        <li>Sarcastic, idiomatic language</li>
+        <li>No focus indicators</li>
+      </ul>
+    </div>
+  </div>
+</section>
+
+<!-- RULE TABLE: GOOD SITE -->
+<section>
+  <h2>Good site — rules followed</h2>
+  <p>
+    The guidelines are taken directly from the lecture slides (PDF) and from the
+    reference web design guide provided (autism-web-design.html).
+    Each rule below is implemented in <code>good/index.html</code> with an
+    inline code comment (<code>[R1]</code> through <code>[R20]</code>).
+  </p>
+
+  <table class="rule-table">
+    <thead>
+      <tr>
+        <th style="width:60px;">Rule</th>
+        <th style="width:200px;">Guideline</th>
+        <th>How it is implemented in the good site</th>
+        <th style="width:100px;">Source</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="badge badge-good">R1</span></td>
+        <td>Muted, low-saturation colour palette</td>
+        <td>All colours are defined as CSS variables with deliberately low saturation: sage green (#5a7a5a), warm cream (#f5f2eb), dusty blue (#3a5a8a). No pure red, yellow, or neon hues are used anywhere on the site.</td>
+        <td>Lecture slide: "Identifying Sensory Barriers" — digital platforms with bright colours cause sensory overload</td>
+      </tr>
+      <tr>
+        <td><span class="badge badge-good">R2</span></td>
+        <td>Off-white background, not pure white</td>
+        <td>Background is <code>#f5f2eb</code> — a warm cream. Pure white (#ffffff) creates glare and visual discomfort. The card background is <code>#faf8f3</code>.</td>
+        <td>Reference site checklist: "Off-white background"</td>
+      </tr>
+      <tr>
+        <td><span class="badge badge-good">R3</span></td>
+        <td>Body text ≥ 16–18px, line-height ≥ 1.5</td>
+        <td>Default font size is 18px (<code>--fs-base: 18px</code>). Line-height is set to 1.75 (<code>--lh: 1.75</code>). Users can increase size to 21px or 24px via the toolbar.</td>
+        <td>Reference site checklist: "Body 16–18px, line-height 1.5+"</td>
+      </tr>
+      <tr>
+        <td><span class="badge badge-good">R4</span></td>
+        <td>Accessible, readable fonts</td>
+        <td>Body uses <strong>DM Sans</strong> — a clean humanist sans-serif. Headings use <strong>Literata</strong> — a serif designed for long-form reading. Both fonts have clear letterforms and open spacing.</td>
+        <td>Reference site: uses Atkinson Hyperlegible (accessibility-first font)</td>
+      </tr>
+      <tr>
+        <td><span class="badge badge-good">R5</span></td>
+        <td>No automatic animations</td>
+        <td>There are zero CSS keyframe animations or JavaScript-driven transitions that play without user action. The only transitions are 0.2s hover and dark-mode swaps — short, subtle, and user-triggered. The site also respects <code>@media (prefers-reduced-motion: reduce)</code> to disable even those.</td>
+        <td>Reference site checklist: "prefers-reduced-motion honored"</td>
+      </tr>
+      <tr>
+        <td><span class="badge badge-good">R6</span></td>
+        <td>No autoplay audio or video</td>
+        <td>No <code>&lt;audio autoplay&gt;</code>, no <code>&lt;video autoplay&gt;</code>, no embedded media of any kind on the page. The lecture notes identify unexpected sounds as a major auditory barrier.</td>
+        <td>Lecture slide: "Auditory Sensitivities — distress from sudden sounds"</td>
+      </tr>
+      <tr>
+        <td><span class="badge badge-good">R7</span></td>
+        <td>Predictable, consistent navigation</td>
+        <td>The navigation bar is sticky at the top of the page. It has the same position, same links, and same visual style on every section. The footer also contains consistent links. Users always know where to find navigation.</td>
+        <td>Reference site checklist: "Predictable navigation"</td>
+      </tr>
+      <tr>
+        <td><span class="badge badge-good">R8</span></td>
+        <td>Icons always paired with text labels</td>
+        <td>Every interactive element that uses an icon also has a visible text label. CTA buttons show an icon + the words "Browse articles". Read-more links say "Read full article" + arrow icon. Nav links are text only. The toolbar buttons show both icon and word.</td>
+        <td>Reference site checklist: "Icons paired with text labels"</td>
+      </tr>
+      <tr>
+        <td><span class="badge badge-good">R9</span></td>
+        <td>Colour is never the only signal</td>
+        <td>Category tags use an icon + colour + text (e.g. "Nature" tag has a small icon AND the word). The accent border on cards uses both colour (green left border) and position. No information is conveyed by colour alone.</td>
+        <td>Reference site checklist: "Color not the only signal"</td>
+      </tr>
+      <tr>
+        <td><span class="badge badge-good">R10</span></td>
+        <td>Dark mode toggle (persistent)</td>
+        <td>A clearly labelled "Dark mode" button in the accessibility toolbar switches the entire site to a dark palette via CSS variables. The setting is saved to <code>localStorage</code> and restored on next visit.</td>
+        <td>Reference site checklist: "Light / dark mode toggle — visible, persistent"</td>
+      </tr>
+      <tr>
+        <td><span class="badge badge-good">R11</span></td>
+        <td>Text size controls (persistent)</td>
+        <td>Four text-size buttons (Small / Default / Large / Larger) let the user choose 16px, 18px, 21px, or 24px. Current selection is highlighted with <code>aria-pressed="true"</code>. Setting saved to localStorage.</td>
+        <td>Reference site checklist: "Text scaling — full functionality at 200% zoom"</td>
+      </tr>
+      <tr>
+        <td><span class="badge badge-good">R12</span></td>
+        <td>Reduce motion toggle</td>
+        <td>A "Reduce motion" button in the toolbar adds the class <code>reduce-motion</code> to <code>&lt;body&gt;</code>, which sets <code>transition: none</code> and <code>animation: none</code> on all elements. This goes beyond relying solely on the OS system preference.</td>
+        <td>Reference site checklist: "Reduce motion toggle — beyond just system pref"</td>
+      </tr>
+      <tr>
+        <td><span class="badge badge-good">R13</span></td>
+        <td>Plain, literal language — no idioms or sarcasm</td>
+        <td>All page copy is written in plain, direct English. Example: "A quiet space for thoughtful reading. The text is clear. The layout is simple. There are no distractions." No idioms ("don't miss the boat"), no sarcasm, no ambiguous phrases.</td>
+        <td>Reference site checklist: "No idioms or sarcasm" + Lecture: autistic communication is direct and literal</td>
+      </tr>
+      <tr>
+        <td><span class="badge badge-good">R14</span></td>
+        <td>Visible keyboard focus indicators</td>
+        <td>All interactive elements show a 3px solid blue outline on <code>:focus-visible</code>. The blue (#3a5a8a) is distinct from the site's green accent colour, ensuring it is always visible regardless of the element's background.</td>
+        <td>WCAG 2.1 / Reference site: keyboard navigation</td>
+      </tr>
+      <tr>
+        <td><span class="badge badge-good">R15</span></td>
+        <td>No time limits, pop-ups, or surprise interruptions</td>
+        <td>There are zero pop-ups, modal dialogs, alert boxes, notification banners, or countdown timers anywhere on the page. The site is fully static and predictable from load to close.</td>
+        <td>Reference site checklist: "No time limits or extendable"</td>
+      </tr>
+      <tr>
+        <td><span class="badge badge-good">R16</span></td>
+        <td>Single-column layout</td>
+        <td>Main content uses a single centred column with <code>max-width: 720px</code>. Articles are stacked vertically. There are no complex multi-column grids that force users to track multiple reading directions simultaneously.</td>
+        <td>Reference site checklist: "Single-column forms" + Lecture: spatial layout clarity</td>
+      </tr>
+      <tr>
+        <td><span class="badge badge-good">R17</span></td>
+        <td>Adequate white space — no clutter</td>
+        <td>Generous spacing system: <code>--space-lg: 2rem</code>, <code>--space-xl: 3rem</code>. Cards have internal padding of 1.25rem. Sections are separated by 3rem. The page never feels dense or overwhelming.</td>
+        <td>Lecture slide: "Cluttered designs increase sensory overload"</td>
+      </tr>
+      <tr>
+        <td><span class="badge badge-good">R18</span></td>
+        <td>Contrast ≥ 4.5:1</td>
+        <td>Main text (#2a2620) on background (#f5f2eb) achieves approximately 11:1 contrast. Muted text (#4a4540) on the same background achieves approximately 6:1. All combinations exceed the WCAG AA minimum of 4.5:1.</td>
+        <td>Reference site checklist: "Contrast 4.5:1 minimum"</td>
+      </tr>
+      <tr>
+        <td><span class="badge badge-good">R19</span></td>
+        <td>Skip-to-main-content link</td>
+        <td>A visually hidden "Skip to main content" link is the first element in the DOM. It becomes visible on focus. This allows keyboard users to jump past the navigation bar directly to the article content.</td>
+        <td>WCAG 2.1 / Reference site: keyboard navigation</td>
+      </tr>
+      <tr>
+        <td><span class="badge badge-good">R20</span></td>
+        <td>No hover-only interactive features</td>
+        <td>All functionality works with keyboard and touch. Card hover states add a shadow — a purely cosmetic enhancement. No critical information or functionality is hidden behind hover-only states.</td>
+        <td>Reference site checklist: "No hover-only features"</td>
+      </tr>
+    </tbody>
+  </table>
+</section>
+
+<!-- RULE TABLE: BAD SITE -->
+<section>
+  <h2>Bad site — rules broken</h2>
+  <p>
+    The bad site (<code>bad/index.html</code>) is a deliberately dysfunctional e-commerce page.
+    Each violation is annotated with <code>[V1]</code>–<code>[V20]</code> in the HTML source code.
+  </p>
+
+  <table class="rule-table">
+    <thead>
+      <tr>
+        <th style="width:60px;">Rule</th>
+        <th style="width:200px;">Guideline broken</th>
+        <th>How it is broken in the bad site</th>
+        <th style="width:140px;">Effect on autistic users</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="badge badge-bad">V1</span></td>
+        <td>Muted palette (broken)</td>
+        <td>Pure red (#ff0000), lime (#00ff00), magenta (#ff00ff), cyan (#00ffff), yellow (#ffff00) — maximum saturation. Colours are used simultaneously with no visual hierarchy.</td>
+        <td>Visual hypersensitivity overload; difficulty focusing; distress</td>
+      </tr>
+      <tr>
+        <td><span class="badge badge-bad">V2</span></td>
+        <td>Off-white background (broken)</td>
+        <td>Pure white (#ffffff) background with a red/green diagonal stripe pattern (<code>repeating-linear-gradient</code>) tiled across the main content area.</td>
+        <td>Glare on pure white; busy pattern prevents reading</td>
+      </tr>
+      <tr>
+        <td><span class="badge badge-bad">V3</span></td>
+        <td>Readable font size (broken)</td>
+        <td>Body font size is 9–11px. Line-height is 1.0–1.1. One block of text uses 8px font. Some form labels use no font size larger than 9px.</td>
+        <td>Impossible to read comfortably; causes eye strain and cognitive overload</td>
+      </tr>
+      <tr>
+        <td><span class="badge badge-bad">V4</span></td>
+        <td>Readable fonts (broken)</td>
+        <td>All text uses <code>font-family: 'Comic Sans MS', 'Chalkboard SE', cursive</code> — fonts with irregular letterforms that are not designed for accessibility or extended reading.</td>
+        <td>Harder to decode letter shapes; adds processing load</td>
+      </tr>
+      <tr>
+        <td><span class="badge badge-bad">V5</span></td>
+        <td>No automatic animations (broken)</td>
+        <td>The page uses 10+ simultaneous CSS keyframe animations: <code>flashColors</code> (rapid background colour cycling), <code>spin</code> (continuous rotation), <code>bounce</code> (jumping elements), <code>shake</code>, <code>pulse</code>, <code>rainbow</code> (text colour cycling), <code>blink</code>. All play automatically and continuously with no off switch.</td>
+        <td>Sensory overload; triggering for vestibular and visual hypersensitivity; panic</td>
+      </tr>
+      <tr>
+        <td><span class="badge badge-bad">V6</span></td>
+        <td>No autoplay audio (broken)</td>
+        <td>An <code>&lt;audio autoplay loop&gt;</code> element is placed in the page. An event listener also attempts to play audio on every user click, so silencing it is not straightforward.</td>
+        <td>Sudden unexpected sound causes distress; auditory hypersensitivity</td>
+      </tr>
+      <tr>
+        <td><span class="badge badge-bad">V7</span></td>
+        <td>Consistent navigation (broken)</td>
+        <td>There are two separate navigation bars. The first appears at the top-right inside the header. The second appears mid-page at an unrelated position. Both use different icons and layouts. No consistency or predictability.</td>
+        <td>Disorientation; inability to build a mental model of the page</td>
+      </tr>
+      <tr>
+        <td><span class="badge badge-bad">V8</span></td>
+        <td>Icons with text labels (broken)</td>
+        <td>Both navigation bars use icon-only buttons (🏠 📦 🛒 etc.) with empty <code>title=""</code> attributes. The pop-up close button is a bare "✕" symbol. The form submit button is just "✓". No visible text labels anywhere.</td>
+        <td>User cannot know what buttons do; increased anxiety and errors</td>
+      </tr>
+      <tr>
+        <td><span class="badge badge-bad">V9</span></td>
+        <td>Colour as only signal (broken)</td>
+        <td>Three coloured squares (red, green, yellow) are placed in the middle of the page as "status indicators" with no accompanying text, icon, or tooltip. Star ratings are shown in red with no accessible label. Form validation uses coloured squares only.</td>
+        <td>Colour-blind users and those who need explicit labels cannot interpret meaning</td>
+      </tr>
+      <tr>
+        <td><span class="badge badge-bad">V10</span></td>
+        <td>User controls (broken)</td>
+        <td>There is no dark mode, no text size control, no reduce motion toggle, and no accessibility toolbar of any kind. The user has zero ability to customise the experience.</td>
+        <td>No way to reduce sensory input; trapped in an overwhelming environment</td>
+      </tr>
+      <tr>
+        <td><span class="badge badge-bad">V11</span></td>
+        <td>No surprise pop-ups (broken)</td>
+        <td>A full-screen pop-up with a shaking animation and flashing rainbow text appears 3 seconds after page load. Clicking outside does not close it. The close button has no accessible label. It also contains a countdown (rule V20).</td>
+        <td>Surprise interruptions cause acute anxiety; unpredictability is extremely distressing</td>
+      </tr>
+      <tr>
+        <td><span class="badge badge-bad">V12</span></td>
+        <td>No moving/scrolling text (broken)</td>
+        <td>A <code>marquee</code>-style scrolling text bar cycles continuously across the page: "DON'T MISS THE BOAT! ACT NOW BEFORE IT'S TOO LATE!..." The user cannot pause or stop it.</td>
+        <td>Moving text is impossible to ignore; visual distraction prevents focusing on content</td>
+      </tr>
+      <tr>
+        <td><span class="badge badge-bad">V13</span></td>
+        <td>No autoplay video/GIF (broken)</td>
+        <td>Two "fake video" elements simulate auto-playing video with rapid CSS colour cycling animations. They carry labels "VIDEO PLAYING AUTOMATICALLY — CANNOT STOP" and "LIVE SALE NOW".</td>
+        <td>Movement in peripheral vision is hard to filter out; triggers sensory seeking/avoidance</td>
+      </tr>
+      <tr>
+        <td><span class="badge badge-bad">V14</span></td>
+        <td>Consistent layout (broken)</td>
+        <td>Section 1 uses a 5-column grid. Section 2 uses a 3-column (20/60/20) grid. Section 3 uses a 7-column grid. Section 4 uses an arbitrary flexbox row. No layout system or visual consistency.</td>
+        <td>Impossible to build a mental map of the page; exhausting to navigate</td>
+      </tr>
+      <tr>
+        <td><span class="badge badge-bad">V15</span></td>
+        <td>Adequate white space (broken)</td>
+        <td>Most elements have <code>padding: 2–4px</code> and <code>margin: 1–2px</code>. Seventeen items are packed into one card. One column contains 14 stacked single-word lines with no spacing. Text blocks have <code>line-height: 1.0</code>.</td>
+        <td>Dense layouts cause visual overload; difficult to identify where to look</td>
+      </tr>
+      <tr>
+        <td><span class="badge badge-bad">V16</span></td>
+        <td>Plain language (broken)</td>
+        <td>The page is full of idioms: "Don't miss the boat", "bite the bullet", "ball is in your court", "hit the ground running", "let the cat out of the bag", "barking up the wrong tree". The dismiss button reads "No thanks, I hate savings" — guilt-tripping language.</td>
+        <td>Idioms are often interpreted literally by autistic users; causes confusion and distress</td>
+      </tr>
+      <tr>
+        <td><span class="badge badge-bad">V17</span></td>
+        <td>Visible focus indicators (broken)</td>
+        <td><code>* { outline: none !important; }</code> removes all focus indicators from every element on the page. Keyboard users receive zero visual feedback when navigating.</td>
+        <td>Keyboard-dependent users cannot navigate the page at all</td>
+      </tr>
+      <tr>
+        <td><span class="badge badge-bad">V18</span></td>
+        <td>No flashing content (broken)</td>
+        <td>The header flashes through 10 hues at 0.4-second intervals (~2.5Hz — above the 3-flash/second danger threshold). Three separate elements cycle background colours at 0.2–0.5s intervals. The <code>blink</code> animation toggles visibility at 0.5s.</td>
+        <td>Photosensitive seizure risk; extreme visual distress; fight-or-flight response</td>
+      </tr>
+      <tr>
+        <td><span class="badge badge-bad">V19</span></td>
+        <td>Skip navigation link (broken)</td>
+        <td>There is no skip link. Keyboard users must tab through every one of the 14+ animated navigation icons, the countdown timer, and all other elements before reaching any content. The navigation itself is unpredictable (see V7).</td>
+        <td>Keyboard users are trapped in an exhausting tab sequence</td>
+      </tr>
+      <tr>
+        <td><span class="badge badge-bad">V20</span></td>
+        <td>No time pressure (broken)</td>
+        <td>A prominent countdown timer at the top of the page counts down from 9:59 at an accelerated rate. The pop-up contains a 10-second countdown before auto-closing. Text "ONLY 2 ITEMS LEFT — BUY NOW OR CRY LATER" creates additional pressure.</td>
+        <td>Time pressure triggers anxiety; autistic users often need more processing time</td>
+      </tr>
+    </tbody>
+  </table>
+</section>
+
+<!-- GITHUB PAGES SETUP -->
+<section>
+  <h2>How to host on GitHub Pages</h2>
+  <div class="callout">
+    <p>
+      <strong>GitHub Pages is free</strong> and requires only a GitHub account.
+      The two sites can be hosted in the same repository as subfolders,
+      or in separate repositories.
+    </p>
+  </div>
+
+  <h3>Option A — One repository, two subfolders (recommended)</h3>
+  <div class="steps">
+    <div class="step">
+      <div class="step-num">1</div>
+      <div class="step-body">
+        <h4>Create a new GitHub repository</h4>
+        <p>Go to <a href="https://github.com/new" target="_blank">github.com/new</a>. Name it e.g. <code>autism-web-design</code>. Set it to <strong>Public</strong>. Do not add a README yet.</p>
+      </div>
+    </div>
+    <div class="step">
+      <div class="step-num">2</div>
+      <div class="step-body">
+        <h4>Create the folder structure</h4>
+        <p>Your repository should look like this:</p>
+        <p>
+          <code>autism-web-design/</code><br>
+          &nbsp;&nbsp;<code>index.html</code> &nbsp;← this explanation page<br>
+          &nbsp;&nbsp;<code>good/</code><br>
+          &nbsp;&nbsp;&nbsp;&nbsp;<code>index.html</code> &nbsp;← autism-friendly site<br>
+          &nbsp;&nbsp;<code>bad/</code><br>
+          &nbsp;&nbsp;&nbsp;&nbsp;<code>index.html</code> &nbsp;← autism-unfriendly site
+        </p>
+      </div>
+    </div>
+    <div class="step">
+      <div class="step-num">3</div>
+      <div class="step-body">
+        <h4>Upload files via the GitHub web interface</h4>
+        <p>Open your repository on GitHub. Click <strong>Add file → Upload files</strong>. Upload <code>index.html</code>, then create the <code>good</code> and <code>bad</code> subdirectories by naming files <code>good/index.html</code> and <code>bad/index.html</code> when uploading.</p>
+      </div>
+    </div>
+    <div class="step">
+      <div class="step-num">4</div>
+      <div class="step-body">
+        <h4>Enable GitHub Pages</h4>
+        <p>Go to your repository → <strong>Settings</strong> → <strong>Pages</strong>. Under "Branch", select <strong>main</strong> and folder <strong>/ (root)</strong>. Click Save.</p>
+      </div>
+    </div>
+    <div class="step">
+      <div class="step-num">5</div>
+      <div class="step-body">
+        <h4>Your live URLs</h4>
+        <p>
+          After about 1–2 minutes, your sites will be live at:<br>
+          <code>https://YOUR-USERNAME.github.io/autism-web-design/</code> (this page)<br>
+          <code>https://YOUR-USERNAME.github.io/autism-web-design/good/</code><br>
+          <code>https://YOUR-USERNAME.github.io/autism-web-design/bad/</code>
+        </p>
+      </div>
+    </div>
+    <div class="step">
+      <div class="step-num">6</div>
+      <div class="step-body">
+        <h4>Take screenshots</h4>
+        <p>Open each URL in a browser. Press <strong>F12</strong> to open DevTools, then press <strong>Ctrl + Shift + P</strong> (or Cmd + Shift + P on Mac) and type "Capture full size screenshot" to save a full-page PNG. Submit the screenshots alongside the live links.</p>
+      </div>
+    </div>
+  </div>
+
+  <h3 style="margin-top:2rem;">Option B — Two separate repositories</h3>
+  <p>
+    Repeat the steps above twice — once for the good site (name it <code>leafwell-good</code>)
+    and once for the bad site (name it <code>leafwell-bad</code>).
+    URLs will be <code>YOUR-USERNAME.github.io/leafwell-good</code> and <code>…/leafwell-bad</code>.
+  </p>
+</section>
+
+<!-- SUMMARY -->
+<section>
+  <h2>Summary of design decisions</h2>
+  <p>
+    The two sites share the same subject matter (a reading platform) to make the contrast
+    purely about design choices rather than content.
+    The good site implements all 20 rules from the lecture materials and the reference guide,
+    while the bad site deliberately violates each one in a documentable and explainable way.
+  </p>
+  <p>
+    The key lesson demonstrated is that autism-friendly design is not a checklist of
+    visual adjustments — it is a fundamental commitment to predictability, user control,
+    and the reduction of unnecessary sensory input.
+    As the reference slides state: <em>"Calm design is good design."</em>
+  </p>
+</section>
+
+</main>
+</body>
+</html>

@@ -1,0 +1,777 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Leafwell — Calm Reading Space</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Literata:ital,wght@0,300;0,400;0,500;0,600;1,400&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
+
+<!--
+  ╔══════════════════════════════════════════════════════════════╗
+  ║  AUTISM-FRIENDLY DESIGN — RULE ANNOTATIONS                   ║
+  ║  Each section is tagged with the rule it implements.         ║
+  ╚══════════════════════════════════════════════════════════════╝
+
+  RULES FOLLOWED:
+  [R1]  Muted, low-saturation colour palette — no bright / pure hues
+  [R2]  Off-white (#f5f2eb) background — not pure white which causes glare
+  [R3]  Body text ≥ 18px, line-height 1.75 — easy to read, no eye strain
+  [R4]  Readable font: Literata (serif, designed for long reading) + DM Sans
+  [R5]  No animations that play automatically — all motion is user-triggered
+         and respects prefers-reduced-motion
+  [R6]  No autoplay audio or video
+  [R7]  Predictable, consistent navigation — same position, same labels
+  [R8]  All icons paired with visible text labels
+  [R9]  Colour is never the only signal (icons + text always accompany it)
+  [R10] Dark mode toggle — persisted to localStorage
+  [R11] Text size controls (+/−) — persisted to localStorage
+  [R12] Reduce motion toggle — beyond just system preference
+  [R13] Plain, literal language — no idioms, no sarcasm
+  [R14] Focus indicators clearly visible (3px outline)
+  [R15] No time limits, no pop-ups, no surprise interruptions
+  [R16] Single-column layout — no complex multi-column grids
+  [R17] Adequate white space — no cluttered, overwhelming density
+  [R18] Contrast ≥ 4.5:1 for all text
+  [R19] Skip-to-main-content link for keyboard users
+  [R20] No hover-only interactive features
+-->
+
+<style>
+/* ═══════ DESIGN TOKENS ═══════ */
+:root {
+  /* [R1] [R2] Muted, off-white palette */
+  --bg:         #f5f2eb;
+  --bg-card:    #faf8f3;
+  --bg-nav:     #eeeae0;
+  --text:       #2a2620;
+  --text-soft:  #4a4540;
+  --text-dim:   #6b6560;
+  --accent:     #5a7a5a;   /* muted sage green — calm, not stimulating */
+  --accent-l:   #7a9a7a;
+  --accent-bg:  #eef3ee;
+  --border:     rgba(42,38,32,0.10);
+  --focus:      #3a5a8a;   /* distinct blue for focus ring */
+
+  /* Dark mode tokens */
+  --bg-dark:       #1e1c19;
+  --bg-card-dark:  #26231f;
+  --bg-nav-dark:   #171512;
+  --text-dark:     #e8e3da;
+  --text-soft-dark:#b8b3aa;
+  --text-dim-dark: #8a8580;
+  --border-dark:   rgba(232,227,218,0.10);
+
+  /* [R3] Typography scale */
+  --fs-base:    18px;
+  --fs-sm:      15px;
+  --fs-lg:      20px;
+  --fs-h2:      1.5rem;
+  --fs-h1:      2rem;
+  --lh:         1.75;
+
+  /* Spacing */
+  --space-xs:   0.4rem;
+  --space-sm:   0.75rem;
+  --space-md:   1.25rem;
+  --space-lg:   2rem;
+  --space-xl:   3rem;
+
+  --radius:     8px;
+  --transition: 0.2s ease;
+}
+
+/* [R10] Dark mode */
+body.dark {
+  --bg:        var(--bg-dark);
+  --bg-card:   var(--bg-card-dark);
+  --bg-nav:    var(--bg-nav-dark);
+  --text:      var(--text-dark);
+  --text-soft: var(--text-soft-dark);
+  --text-dim:  var(--text-dim-dark);
+  --border:    var(--border-dark);
+  --accent-bg: rgba(90,122,90,0.15);
+}
+
+/* [R12] Reduce motion */
+body.reduce-motion *, body.reduce-motion *::before, body.reduce-motion *::after {
+  transition: none !important;
+  animation: none !important;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    transition-duration: 0.01ms !important;
+    animation-duration: 0.01ms !important;
+  }
+}
+
+/* ═══════ RESET ═══════ */
+*, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+
+/* ═══════ BASE ═══════ */
+html { font-size: var(--fs-base); scroll-behavior: smooth; }
+
+body {
+  font-family: 'DM Sans', sans-serif; /* [R4] */
+  background: var(--bg);
+  color: var(--text);
+  line-height: var(--lh); /* [R3] */
+  -webkit-font-smoothing: antialiased;
+  min-height: 100vh;
+  transition: background var(--transition), color var(--transition);
+}
+
+/* [R19] Skip link */
+.skip-link {
+  position: absolute;
+  top: -100px;
+  left: 1rem;
+  padding: 0.6rem 1rem;
+  background: var(--focus);
+  color: #fff;
+  border-radius: var(--radius);
+  font-weight: 500;
+  text-decoration: none;
+  z-index: 1000;
+  transition: top 0.2s;
+}
+.skip-link:focus { top: 1rem; }
+
+/* [R14] Focus indicators */
+:focus-visible {
+  outline: 3px solid var(--focus);
+  outline-offset: 3px;
+  border-radius: 4px;
+}
+
+/* ═══════ CONTROLS BAR ═══════ */
+/* [R10][R11][R12] — Accessibility toolbar always visible at top */
+.a11y-bar {
+  background: var(--bg-nav);
+  border-bottom: 1px solid var(--border);
+  padding: 0.5rem var(--space-lg);
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  gap: var(--space-sm);
+  transition: background var(--transition);
+}
+
+.a11y-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.35rem;
+  padding: 0.35rem 0.75rem;
+  background: var(--bg-card);
+  border: 1px solid var(--border);
+  border-radius: 20px;
+  font-family: inherit;
+  font-size: var(--fs-sm);
+  color: var(--text-soft);
+  cursor: pointer;
+  transition: background var(--transition), color var(--transition), border-color var(--transition);
+  /* [R8] icon + text always together */
+}
+.a11y-btn:hover { background: var(--accent-bg); color: var(--accent); border-color: var(--accent-l); }
+.a11y-btn[aria-pressed="true"] { background: var(--accent-bg); color: var(--accent); border-color: var(--accent); font-weight: 500; }
+
+.a11y-btn svg { width: 15px; height: 15px; flex-shrink: 0; }
+
+.font-controls { display: flex; align-items: center; gap: 0.25rem; }
+.font-label { font-size: var(--fs-sm); color: var(--text-dim); padding: 0 0.3rem; }
+
+/* ═══════ NAV ═══════ */
+/* [R7] Consistent, predictable navigation */
+.site-nav {
+  background: var(--bg-nav);
+  border-bottom: 1px solid var(--border);
+  padding: var(--space-md) var(--space-lg);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  position: sticky;
+  top: 0;
+  z-index: 100;
+  transition: background var(--transition);
+}
+
+.logo {
+  font-family: 'Literata', serif;
+  font-size: 1.3rem;
+  font-weight: 500;
+  color: var(--text);
+  text-decoration: none;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+.logo-leaf { color: var(--accent); font-size: 1.4rem; }
+
+.nav-links {
+  display: flex;
+  gap: var(--space-lg);
+  list-style: none;
+}
+.nav-links a {
+  font-size: var(--fs-sm);
+  font-weight: 500;
+  color: var(--text-soft);
+  text-decoration: none;
+  padding: 0.3rem 0;
+  border-bottom: 2px solid transparent;
+  transition: color var(--transition), border-color var(--transition);
+  /* [R8] text labels — no icon-only nav items */
+}
+.nav-links a:hover, .nav-links a[aria-current="page"] {
+  color: var(--accent);
+  border-bottom-color: var(--accent);
+}
+
+/* ═══════ MAIN LAYOUT ═══════ */
+/* [R16] Single-column, generous white space */
+main {
+  max-width: 720px;
+  margin: 0 auto;
+  padding: var(--space-xl) var(--space-lg);
+}
+
+/* ═══════ HERO ═══════ */
+.hero {
+  margin-bottom: var(--space-xl);
+  padding-bottom: var(--space-xl);
+  border-bottom: 1px solid var(--border);
+}
+
+.hero-eyebrow {
+  font-size: var(--fs-sm);
+  font-weight: 500;
+  color: var(--accent);
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  margin-bottom: var(--space-sm);
+}
+
+.hero h1 {
+  font-family: 'Literata', serif;
+  font-size: var(--fs-h1);
+  font-weight: 500;
+  line-height: 1.3;
+  color: var(--text);
+  margin-bottom: var(--space-md);
+  max-width: 26ch;
+}
+
+.hero p {
+  font-size: var(--fs-lg);
+  line-height: 1.7;
+  color: var(--text-soft);
+  max-width: 55ch;
+  margin-bottom: var(--space-lg);
+}
+
+/* [R15] No surprise pop-ups — just a simple, calm CTA */
+.hero-cta {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.75rem 1.5rem;
+  background: var(--accent);
+  color: #fff;
+  border-radius: var(--radius);
+  font-weight: 500;
+  font-size: var(--fs-base);
+  text-decoration: none;
+  transition: background var(--transition);
+  border: 2px solid transparent;
+}
+.hero-cta:hover { background: var(--accent-l); }
+.hero-cta svg { width: 18px; height: 18px; }
+
+/* ═══════ SECTION HEADER ═══════ */
+.section-header {
+  margin-bottom: var(--space-lg);
+}
+.section-header h2 {
+  font-family: 'Literata', serif;
+  font-size: var(--fs-h2);
+  font-weight: 500;
+  color: var(--text);
+  margin-bottom: var(--space-xs);
+}
+.section-header p {
+  color: var(--text-soft);
+  font-size: var(--fs-base);
+}
+
+/* ═══════ ARTICLE CARDS ═══════ */
+/* [R17] Breathing room, no clutter */
+.article-list {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-lg);
+  margin-bottom: var(--space-xl);
+}
+
+.article-card {
+  background: var(--bg-card);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: var(--space-lg);
+  text-decoration: none;
+  color: inherit;
+  display: block;
+  transition: border-color var(--transition), box-shadow var(--transition);
+}
+.article-card:hover {
+  border-color: var(--accent-l);
+  box-shadow: 0 2px 12px rgba(0,0,0,0.06);
+}
+
+.article-meta {
+  display: flex;
+  align-items: center;
+  gap: var(--space-sm);
+  margin-bottom: var(--space-sm);
+  flex-wrap: wrap;
+}
+
+/* [R9] Colour is never the only signal — icons accompany category tags */
+.tag {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.25rem;
+  padding: 0.2rem 0.6rem;
+  border-radius: 4px;
+  font-size: 13px;
+  font-weight: 500;
+  background: var(--accent-bg);
+  color: var(--accent);
+  border: 1px solid rgba(90,122,90,0.2);
+}
+.tag svg { width: 12px; height: 12px; }
+
+.article-time {
+  font-size: 13px;
+  color: var(--text-dim);
+  display: flex;
+  align-items: center;
+  gap: 0.25rem;
+}
+.article-time svg { width: 13px; height: 13px; }
+
+.article-card h3 {
+  font-family: 'Literata', serif;
+  font-size: 1.2rem;
+  font-weight: 500;
+  color: var(--text);
+  margin-bottom: var(--space-sm);
+  line-height: 1.4;
+}
+
+.article-card p {
+  color: var(--text-soft);
+  font-size: var(--fs-base);
+  line-height: var(--lh);
+  margin-bottom: var(--space-md);
+}
+
+.article-footer {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding-top: var(--space-sm);
+  border-top: 1px solid var(--border);
+}
+
+.author {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  font-size: var(--fs-sm);
+  color: var(--text-dim);
+}
+.author-dot {
+  width: 28px;
+  height: 28px;
+  border-radius: 50%;
+  background: var(--accent-bg);
+  border: 1px solid var(--border);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 12px;
+  font-weight: 600;
+  color: var(--accent);
+}
+
+/* [R8] Read-more link always has text label, never just an arrow icon */
+.read-more {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.3rem;
+  font-size: var(--fs-sm);
+  font-weight: 500;
+  color: var(--accent);
+}
+.read-more svg { width: 14px; height: 14px; }
+
+/* ═══════ INFO BOX ═══════ */
+/* [R13] Plain, direct language */
+.info-box {
+  background: var(--accent-bg);
+  border: 1px solid rgba(90,122,90,0.2);
+  border-left: 4px solid var(--accent);
+  border-radius: var(--radius);
+  padding: var(--space-md) var(--space-lg);
+  margin-bottom: var(--space-xl);
+  display: flex;
+  gap: var(--space-md);
+  align-items: flex-start;
+}
+.info-box svg { width: 20px; height: 20px; color: var(--accent); flex-shrink: 0; margin-top: 2px; }
+.info-box p { font-size: var(--fs-base); color: var(--text-soft); line-height: 1.65; }
+
+/* ═══════ FOOTER ═══════ */
+footer {
+  background: var(--bg-nav);
+  border-top: 1px solid var(--border);
+  padding: var(--space-xl) var(--space-lg);
+  transition: background var(--transition);
+}
+.footer-inner {
+  max-width: 720px;
+  margin: 0 auto;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: var(--space-md);
+}
+.footer-links {
+  display: flex;
+  gap: var(--space-lg);
+  list-style: none;
+}
+.footer-links a {
+  font-size: var(--fs-sm);
+  color: var(--text-dim);
+  text-decoration: none;
+}
+.footer-links a:hover { color: var(--accent); }
+.footer-note { font-size: var(--fs-sm); color: var(--text-dim); }
+
+/* ═══════ FONT SIZE LEVELS ═══════ */
+/* [R11] */
+body.text-sm { font-size: 16px; }
+body.text-md { font-size: 18px; }
+body.text-lg { font-size: 21px; }
+body.text-xl { font-size: 24px; }
+
+</style>
+</head>
+
+<body class="text-md" id="body">
+
+<!-- [R19] Skip navigation link for keyboard users -->
+<a href="#main-content" class="skip-link">Skip to main content</a>
+
+<!-- ═══ ACCESSIBILITY TOOLBAR ═══ -->
+<!-- [R10][R11][R12] Always-visible user controls -->
+<div class="a11y-bar" role="toolbar" aria-label="Accessibility settings">
+
+  <!-- Font size controls [R11] -->
+  <div class="font-controls" role="group" aria-label="Text size">
+    <span class="font-label" aria-hidden="true">Text size:</span>
+    <button class="a11y-btn" id="btn-text-sm" onclick="setTextSize('sm')" title="Small text">
+      <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2">
+        <text x="2" y="13" font-size="10" fill="currentColor" stroke="none" font-family="sans-serif">A</text>
+      </svg>
+      Small
+    </button>
+    <button class="a11y-btn" id="btn-text-md" onclick="setTextSize('md')" title="Default text" aria-pressed="true">
+      <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2">
+        <text x="1" y="13" font-size="12" fill="currentColor" stroke="none" font-family="sans-serif">A</text>
+      </svg>
+      Default
+    </button>
+    <button class="a11y-btn" id="btn-text-lg" onclick="setTextSize('lg')" title="Large text">
+      <svg viewBox="0 0 16 16">
+        <text x="0" y="14" font-size="14" fill="currentColor" font-family="sans-serif">A</text>
+      </svg>
+      Large
+    </button>
+    <button class="a11y-btn" id="btn-text-xl" onclick="setTextSize('xl')" title="Extra large text">
+      <svg viewBox="0 0 16 16">
+        <text x="0" y="14" font-size="16" fill="currentColor" font-family="sans-serif">A</text>
+      </svg>
+      Larger
+    </button>
+  </div>
+
+  <!-- Dark mode [R10] -->
+  <button class="a11y-btn" id="btn-dark" onclick="toggleDark()" aria-pressed="false">
+    <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5">
+      <path d="M13 9A6 6 0 0 1 5 2a6 6 0 1 0 8 7z"/>
+    </svg>
+    Dark mode
+  </button>
+
+  <!-- Reduce motion [R12] -->
+  <button class="a11y-btn" id="btn-motion" onclick="toggleMotion()" aria-pressed="false">
+    <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5">
+      <circle cx="8" cy="8" r="5"/>
+      <path d="M8 3v5l3 2"/>
+    </svg>
+    Reduce motion
+  </button>
+
+</div>
+
+<!-- ═══ NAVIGATION ═══ -->
+<!-- [R7] Predictable, consistent nav — same position on every page -->
+<nav class="site-nav" aria-label="Main navigation">
+  <a href="#" class="logo" aria-label="Leafwell — go to homepage">
+    <span class="logo-leaf" aria-hidden="true">🌿</span>
+    Leafwell
+  </a>
+  <!-- [R8] Every nav item has a clear text label -->
+  <ul class="nav-links" role="list">
+    <li><a href="#" aria-current="page">Home</a></li>
+    <li><a href="#">Articles</a></li>
+    <li><a href="#">Topics</a></li>
+    <li><a href="#">About</a></li>
+  </ul>
+</nav>
+
+<!-- ═══ MAIN CONTENT ═══ -->
+<main id="main-content">
+
+  <!-- ═══ HERO ═══ -->
+  <!-- [R13] Plain, direct language — no idioms or metaphors -->
+  <section class="hero" aria-labelledby="hero-heading">
+    <p class="hero-eyebrow" aria-label="Section label">Reading made comfortable</p>
+    <h1 id="hero-heading">A quiet space for thoughtful reading</h1>
+    <p>
+      Leafwell is a reading platform designed to be calm and easy to use.
+      The text is clear. The layout is simple. There are no distractions.
+    </p>
+    <!-- [R8] CTA button has icon + text label -->
+    <a href="#articles" class="hero-cta">
+      <svg viewBox="0 0 18 18" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
+        <path d="M9 2v14M2 9l7 7 7-7"/>
+      </svg>
+      Browse articles
+    </a>
+  </section>
+
+  <!-- ═══ INFO BOX ═══ -->
+  <!-- [R13] Plain language — tells the user clearly what this site does -->
+  <div class="info-box" role="note">
+    <svg viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true">
+      <circle cx="10" cy="10" r="8"/>
+      <path d="M10 9v5M10 7h.01"/>
+    </svg>
+    <p>
+      <strong>You are in control.</strong> Use the toolbar at the top to change text size,
+      switch to dark mode, or turn off all animations. Your settings are saved automatically.
+    </p>
+  </div>
+
+  <!-- ═══ ARTICLES ═══ -->
+  <!-- [R5] No auto-playing content, [R6] no autoplay media -->
+  <section aria-labelledby="articles-heading" id="articles">
+    <div class="section-header">
+      <h2 id="articles-heading">Latest articles</h2>
+      <p>New articles are added every week. All articles are free to read.</p>
+    </div>
+
+    <div class="article-list">
+
+      <!-- Article 1 -->
+      <article class="article-card" aria-labelledby="article-1-title">
+        <div class="article-meta">
+          <!-- [R9] Tag has icon + text, not just colour -->
+          <span class="tag">
+            <svg viewBox="0 0 12 12" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true">
+              <path d="M2 2h8v8H2z"/>
+            </svg>
+            Nature
+          </span>
+          <span class="article-time">
+            <svg viewBox="0 0 13 13" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true">
+              <circle cx="6.5" cy="6.5" r="5"/>
+              <path d="M6.5 4v3l2 1.5"/>
+            </svg>
+            <time datetime="2025-05-12">12 May 2025</time>
+            &nbsp;·&nbsp; 5 min read
+          </span>
+        </div>
+        <h3 id="article-1-title">How forests regulate their own temperature</h3>
+        <p>
+          Large forests create their own local climate. Trees release water into the air,
+          which cools the ground and nearby air. Scientists are studying this process to
+          understand how forests respond to rising temperatures.
+        </p>
+        <div class="article-footer">
+          <span class="author">
+            <span class="author-dot" aria-hidden="true">MK</span>
+            Maria K.
+          </span>
+          <!-- [R8] "Read full article" — not just an arrow -->
+          <span class="read-more" aria-label="Read full article: How forests regulate their own temperature">
+            Read full article
+            <svg viewBox="0 0 14 14" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
+              <path d="M2 7h10M8 3l4 4-4 4"/>
+            </svg>
+          </span>
+        </div>
+      </article>
+
+      <!-- Article 2 -->
+      <article class="article-card" aria-labelledby="article-2-title">
+        <div class="article-meta">
+          <span class="tag">
+            <svg viewBox="0 0 12 12" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true">
+              <circle cx="6" cy="6" r="4"/>
+            </svg>
+            Science
+          </span>
+          <span class="article-time">
+            <svg viewBox="0 0 13 13" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true">
+              <circle cx="6.5" cy="6.5" r="5"/>
+              <path d="M6.5 4v3l2 1.5"/>
+            </svg>
+            <time datetime="2025-05-08">8 May 2025</time>
+            &nbsp;·&nbsp; 7 min read
+          </span>
+        </div>
+        <h3 id="article-2-title">What sleep does for the brain's waste system</h3>
+        <p>
+          During sleep, the brain clears out waste products that build up during the day.
+          Researchers discovered a system of channels that open wider during sleep, allowing
+          fluid to flush through brain tissue and remove harmful proteins.
+        </p>
+        <div class="article-footer">
+          <span class="author">
+            <span class="author-dot" aria-hidden="true">JL</span>
+            James L.
+          </span>
+          <span class="read-more" aria-label="Read full article: What sleep does for the brain's waste system">
+            Read full article
+            <svg viewBox="0 0 14 14" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
+              <path d="M2 7h10M8 3l4 4-4 4"/>
+            </svg>
+          </span>
+        </div>
+      </article>
+
+      <!-- Article 3 -->
+      <article class="article-card" aria-labelledby="article-3-title">
+        <div class="article-meta">
+          <span class="tag">
+            <svg viewBox="0 0 12 12" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true">
+              <path d="M6 1l1.5 3 3.5.5-2.5 2.5.5 3.5L6 9l-3 1.5.5-3.5L1 4.5 4.5 4z"/>
+            </svg>
+            History
+          </span>
+          <span class="article-time">
+            <svg viewBox="0 0 13 13" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true">
+              <circle cx="6.5" cy="6.5" r="5"/>
+              <path d="M6.5 4v3l2 1.5"/>
+            </svg>
+            <time datetime="2025-05-03">3 May 2025</time>
+            &nbsp;·&nbsp; 6 min read
+          </span>
+        </div>
+        <h3 id="article-3-title">The first public libraries and who could use them</h3>
+        <p>
+          Public libraries as we know them are a relatively recent idea. For most of history,
+          books were expensive and libraries were private. This article explains how public
+          lending libraries started and why they were controversial at the time.
+        </p>
+        <div class="article-footer">
+          <span class="author">
+            <span class="author-dot" aria-hidden="true">AP</span>
+            Anna P.
+          </span>
+          <span class="read-more" aria-label="Read full article: The first public libraries and who could use them">
+            Read full article
+            <svg viewBox="0 0 14 14" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
+              <path d="M2 7h10M8 3l4 4-4 4"/>
+            </svg>
+          </span>
+        </div>
+      </article>
+
+    </div>
+  </section>
+
+</main>
+
+<!-- ═══ FOOTER ═══ -->
+<!-- [R7] Footer is in the same place on every page -->
+<footer>
+  <div class="footer-inner">
+    <span class="footer-note">© 2025 Leafwell. Free to read.</span>
+    <ul class="footer-links" role="list">
+      <li><a href="#">Privacy policy</a></li>
+      <li><a href="#">Accessibility statement</a></li>
+      <li><a href="#">Contact us</a></li>
+    </ul>
+  </div>
+</footer>
+
+<script>
+// ═══ ACCESSIBILITY CONTROLS ═══
+// [R10] Dark mode — persisted
+// [R11] Font size — persisted
+// [R12] Reduce motion — persisted
+
+const body = document.getElementById('body');
+
+// ── Load saved preferences ──
+(function loadPrefs(){
+  if(localStorage.getItem('dark') === 'true'){
+    body.classList.add('dark');
+    document.getElementById('btn-dark').setAttribute('aria-pressed','true');
+  }
+  const sz = localStorage.getItem('textSize') || 'md';
+  setTextSize(sz, true);
+  if(localStorage.getItem('reduceMotion') === 'true'){
+    body.classList.add('reduce-motion');
+    document.getElementById('btn-motion').setAttribute('aria-pressed','true');
+  }
+})();
+
+// ── Dark mode ──
+function toggleDark(){
+  const on = body.classList.toggle('dark');
+  document.getElementById('btn-dark').setAttribute('aria-pressed', on ? 'true' : 'false');
+  localStorage.setItem('dark', on);
+}
+
+// ── Font size ──
+const sizes = ['sm','md','lg','xl'];
+function setTextSize(size, init){
+  sizes.forEach(s => {
+    body.classList.remove('text-'+s);
+    const btn = document.getElementById('btn-text-'+s);
+    if(btn) btn.setAttribute('aria-pressed','false');
+  });
+  body.classList.add('text-'+size);
+  const activeBtn = document.getElementById('btn-text-'+size);
+  if(activeBtn) activeBtn.setAttribute('aria-pressed','true');
+  if(!init) localStorage.setItem('textSize', size);
+}
+
+// ── Reduce motion ──
+function toggleMotion(){
+  const on = body.classList.toggle('reduce-motion');
+  document.getElementById('btn-motion').setAttribute('aria-pressed', on ? 'true' : 'false');
+  localStorage.setItem('reduceMotion', on);
+}
+</script>
+
+</body>
+</html>
